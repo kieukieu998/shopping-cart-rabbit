@@ -7,3 +7,17 @@
 - Tải font: google font
 - React icon: https://react-icons.github.io/react-icons/
     + npm i react-router-dom react-icons
+
+➤ image dummy: https://picsum.photos/images
+
+➤ toán tử điều kiện (ternary operator)
+{isOpen ? a : b} >> điều_kiện ? giá_trị_nếu_đúng : giá_trị_nếu_sai
+
+Props
+➤ Component cha:
+- Quản lý state + hàm xử lý: Dùng useState, useEffect, các hàm xử lý (toggle, submit, fetch, v.v.)
+- Là component gọi hoặc render ra component khác.
+- Quản lý state, truyền dữ liệu hoặc hàm điều khiển xuống component con bằng props.
+➤ Component con:
+- Là component nhận props từ cha: Dùng props để hiển thị UI hoặc gọi ngược lên cha khi cần (qua callback)
+- Không tự giữ state (trừ khi cần), chủ yếu dùng props để hiển thị hoặc gọi ngược lên.
