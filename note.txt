@@ -1,0 +1,9 @@
+04/06/2025 Introduction
+- Tạo folder backend, frontend
+- Chạy lệnh này ở frontend: npm create vite@latest ./ -- --template react
+- Cài taiwind: https://v3.tailwindcss.com/docs/guides/vite
+    + npm install -D tailwindcss postcss autoprefixer
+    + npx tailwindcss init -p
+- Tải font: google font
+- React icon: https://react-icons.github.io/react-icons/
+    + npm i react-router-dom react-icons
