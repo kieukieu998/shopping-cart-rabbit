@@ -1,13 +1,15 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import UserLayout from './components/Layout/UserLayout'
+import Home from "./pages/Home"
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<UserLayout />}>
-        {/**User Layout */}
+            <Route index element={<Home />} />   {/* route con hiển thị mặc định ở đây là index */}
+          
         </Route>
         <Route>{/**Admin Layout */}</Route>
       </Routes>

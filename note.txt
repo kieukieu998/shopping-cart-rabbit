@@ -21,3 +21,5 @@ Props
 ➤ Component con:
 - Là component nhận props từ cha: Dùng props để hiển thị UI hoặc gọi ngược lên cha khi cần (qua callback)
 - Không tự giữ state (trừ khi cần), chủ yếu dùng props để hiển thị hoặc gọi ngược lên.
+➤ <Outlet />
+ "Mình muốn có layout chung (như header, navbar, footer...), và chỉ muốn phần nội dung chính thay đổi theo từng trang – thì chỗ cần thay là <Outlet />."
