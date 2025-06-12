@@ -34,7 +34,7 @@ const Navbar = () => {
                     </Link>
                 </div>
                 <div className="hidden md:flex space-x-6">
-                    <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">MEN</Link>
+                    <Link to="/collections/all" className="text-gray-700 hover:text-black text-sm font-medium uppercase">MEN</Link>
                     <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">WOMEN</Link>
                     <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">TOP WEAR</Link>
                     <Link to="#" className="text-gray-700 hover:text-black text-sm font-medium uppercase">BOTTOM WEAR</Link>
