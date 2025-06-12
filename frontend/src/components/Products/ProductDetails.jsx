@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
-function ProductDetails() {
-    const [mainImage, setMainImage] = useState("");
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const selectedProduct = {
         name: "Stylish Jacket",
         price: 120,
@@ -24,6 +19,18 @@ function ProductDetails() {
             }
         ]
     };
+function ProductDetails() {
+    const [mainImage, setMainImage] = useState("");
+    const [selectedSize, setSelectedSize] = useState("");
+    const [selectedColor, setSelectedColor] = useState("");
+    const [quantity, setQuantity] = useState(1);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+    const handleQuantityChange = (action) => {
+        if(action === "plus") setQuantity ((prev) => prev + 1);
+        if(action === "minus" && quantity > 1 )  setQuantity ((prev) => prev - 1);
+        
+    }
 
     useEffect(() => {
         if (selectedProduct?.images?.length > 0) {
@@ -42,7 +49,7 @@ function ProductDetails() {
                                 key={index}
                                 src={image.url}
                                 alt={image.altText || `Thumbnail ${index}`}
-                                className="w-20 h-20 object-cover rounded-lg cursor-pointer border"
+                                className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === image.url ? "border-black" : "border-gray-300"}`}
                                 onClick={() => setMainImage(image.url)}
                             />
                         ))}
@@ -60,7 +67,7 @@ function ProductDetails() {
                                 key={index}
                                 src={image.url}
                                 alt={image.altText || `Thumbnail ${index}`}
-                                className="w-20 h-20 object-cover rounded-lg cursor-pointer border"
+                                className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === image.url ? "border-black" : "border-gray-300"}`}
                                 onClick={() => setMainImage(image.url)}
                             />
                         ))}
@@ -79,7 +86,8 @@ function ProductDetails() {
                                 {selectedProduct.colors.map((color, index) => (
                                     <button
                                         key={index}
-                                        className="w-8 h-8 rounded-full border"
+                                        onClick={() => setSelectedColor(color)}
+                                        className={`w-8 h-8 rounded-full border ${selectedColor === color ? "border-4 border-black" : "border-gray-300"}`}
                                         style={{
                                             backgroundColor: color.toLowerCase(),
                                             filter: "brightness(0.5)",
@@ -94,7 +102,10 @@ function ProductDetails() {
                             <p className="text-gray-700">Size:</p>
                             <div className="flex gap-2 mt-2">
                                 {selectedProduct.size.map((size, index) => (
-                                    <button key={index} className="px-4 py-2 rounded border">{size}</button>
+                                    <button 
+                                    key={index} 
+                                    onClick={() => setSelectedSize(size)}
+                                    className={`px-4 py-2 rounded border ${selectedSize === size ? "bg-black text-white" : "border-gray-300"}`}>{size}</button>
                                 ))}
                             </div>
                         </div>
@@ -103,9 +114,9 @@ function ProductDetails() {
                         <div className="mb-6">
                             <p className="text-gray-700">Quantity:</p>
                             <div className="flex items-center space-x-4 mt-2">
-                                <button className="px-2 py-1 bg-gray-200 rounded text-lg">-</button>
-                                <span className="text-lg">1</span>
-                                <button className="px-2 py-1 bg-gray-200 rounded text-lg">+</button>
+                                <button onClick={() => handleQuantityChange("minus")} className="px-2 py-1 bg-gray-200 rounded text-lg">-</button>
+                                <span className="text-lg">{quantity}</span>
+                                <button onClick={() => handleQuantityChange("plus")} className="px-2 py-1 bg-gray-200 rounded text-lg">+</button>
                             </div>
                         </div>
 
