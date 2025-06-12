@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
+
+import imageDummy from '../../assets/dummy.png'
 const selectedProduct = {
     name: "Stylish Jacket",
     price: 120,
@@ -20,7 +23,53 @@ const selectedProduct = {
         }
     ]
 };
-function ProductDetails() {
+const similarProduct = [
+    {
+        _id: 1,
+        name: "Product01",
+        price: 100,
+        images: [
+            {
+                url: "https://picsum.photos/500/500?random=2",
+                allText: "Stylish Jacket"
+            }
+        ]
+    },
+    {
+        _id: 2,
+        name: "Product01",
+        price: 100,
+        images: [
+            {
+                url: "https://picsum.photos/500/500?random=3",
+                allText: "Stylish Jacket"
+            }
+        ]
+    },
+    {
+        _id: 3,
+        name: "Product01",
+        price: 100,
+        images: [
+            {
+                url: "https://picsum.photos/500/500?random=4",
+                allText: "Stylish Jacket"
+            }
+        ]
+    },
+    {
+        _id: 4,
+        name: "Product01",
+        price: 100,
+        images: [
+            {
+                url: "https://picsum.photos/500/500?random=5",
+                allText: "Stylish Jacket"
+            }
+        ]
+    },
+];
+const ProductDetails = () => {
     const [mainImage, setMainImage] = useState("");
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedColor, setSelectedColor] = useState("");
@@ -76,7 +125,7 @@ function ProductDetails() {
                     {/* Main Image */}
                     <div className="md:w-1/2">
                         <div className="mb-4">
-                            <img src={mainImage} alt="Main Product" className="w-full h-auto object-cover rounded-lg" />
+                            <img src={mainImage || imageDummy} alt="Main Product" className="w-full h-auto object-cover rounded-lg" />
                         </div>
                     </div>
                     {/* Mobile Thumbnails */}
@@ -141,11 +190,11 @@ function ProductDetails() {
 
                         <button
                             onClick={() => handleAddToCart()}
-                            disabled = {isButtonDisabled}
+                            disabled={isButtonDisabled}
                             className={`bg-black text-white py-2 px-6 rounded w-full mb-4 ${isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:bg-gray-900"}`}
                         >
-                           {isButtonDisabled ? "Adding...." : " ADD TO CART"}
-                            </button>
+                            {isButtonDisabled ? "Adding...." : " ADD TO CART"}
+                        </button>
 
                         <div className="mt-10 text-gray-700">
                             <h3 className="text-xl font-bold mb-4">Characteristics:</h3>
@@ -163,6 +212,11 @@ function ProductDetails() {
                             </table>
                         </div>
                     </div>
+                </div>
+                {/*  */}
+                <div className="mt-20">
+                    <h2 className="text-2xl text-center font-medium mb-4">You May Also Like</h2>
+                    <ProductGrid products={similarProduct}></ProductGrid>
                 </div>
             </div>
         </div>
