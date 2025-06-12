@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
-    const selectedProduct = {
-        name: "Stylish Jacket",
-        price: 120,
-        originalPrice: 150,
-        description: "This is a stylish jacket perfect for any occasion",
-        brand: "FashionBrand",
-        material: "Leather",
-        size: ["S", "M", "L", "XL"],
-        colors: ["red", "Black"],
-        images: [
-            {
-                url: "https://picsum.photos/500/500?random=2",
-                altText: "Stylish Jacket"
-            },
-            {
-                url: "https://picsum.photos/500/500?random=3",
-                altText: "Stylish Jacket"
-            }
-        ]
-    };
+import { toast } from "sonner";
+const selectedProduct = {
+    name: "Stylish Jacket",
+    price: 120,
+    originalPrice: 150,
+    description: "This is a stylish jacket perfect for any occasion",
+    brand: "FashionBrand",
+    material: "Leather",
+    size: ["S", "M", "L", "XL"],
+    colors: ["red", "Black"],
+    images: [
+        {
+            url: "https://picsum.photos/500/500?random=2",
+            altText: "Stylish Jacket"
+        },
+        {
+            url: "https://picsum.photos/500/500?random=3",
+            altText: "Stylish Jacket"
+        }
+    ]
+};
 function ProductDetails() {
     const [mainImage, setMainImage] = useState("");
     const [selectedSize, setSelectedSize] = useState("");
@@ -27,9 +28,27 @@ function ProductDetails() {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const handleQuantityChange = (action) => {
-        if(action === "plus") setQuantity ((prev) => prev + 1);
-        if(action === "minus" && quantity > 1 )  setQuantity ((prev) => prev - 1);
-        
+        if (action === "plus") setQuantity((prev) => prev + 1);
+        if (action === "minus" && quantity > 1) setQuantity((prev) => prev - 1);
+
+    }
+
+    const handleAddToCart = () => {
+        if (!selectedSize || !selectedColor) {
+            toast.error("Please select a size and color before adding to cart.", {
+                duration: 1000
+            });
+            return;
+        }
+        setIsButtonDisabled(true);
+
+
+        setTimeout(() => {
+            toast.success("Product added to cart!", {
+                duration: 1000,
+            });
+            setIsButtonDisabled(false)
+        }, 500)
     }
 
     useEffect(() => {
@@ -102,10 +121,10 @@ function ProductDetails() {
                             <p className="text-gray-700">Size:</p>
                             <div className="flex gap-2 mt-2">
                                 {selectedProduct.size.map((size, index) => (
-                                    <button 
-                                    key={index} 
-                                    onClick={() => setSelectedSize(size)}
-                                    className={`px-4 py-2 rounded border ${selectedSize === size ? "bg-black text-white" : "border-gray-300"}`}>{size}</button>
+                                    <button
+                                        key={index}
+                                        onClick={() => setSelectedSize(size)}
+                                        className={`px-4 py-2 rounded border ${selectedSize === size ? "bg-black text-white" : "border-gray-300"}`}>{size}</button>
                                 ))}
                             </div>
                         </div>
@@ -120,7 +139,13 @@ function ProductDetails() {
                             </div>
                         </div>
 
-                        <button className="bg-black text-white py-2 px-6 rounded w-full mb-4">ADD TO CART</button>
+                        <button
+                            onClick={() => handleAddToCart()}
+                            disabled = {isButtonDisabled}
+                            className={`bg-black text-white py-2 px-6 rounded w-full mb-4 ${isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:bg-gray-900"}`}
+                        >
+                           {isButtonDisabled ? "Adding...." : " ADD TO CART"}
+                            </button>
 
                         <div className="mt-10 text-gray-700">
                             <h3 className="text-xl font-bold mb-4">Characteristics:</h3>
