@@ -10,7 +10,7 @@
 
 - Tải Sonner toast: npm install sonner
 ➤ image dummy: https://picsum.photos/images
-
+- Cài react-paypal-js (checkout.jsx)
 
 
 
