@@ -12,6 +12,7 @@ import Checkout from "./components/Cart/Checkout"
 import OrderConfirmationPage from "./pages/OrderConfirmationPage"
 import OrderDetailsPage from "./pages/OrderDetailsPage"
 import MyOrderPage from "./pages/MyOrderPage"
+import AdminLayout from "./components/Admin/AdminLayout"
 
 const App = () => {
   return (
@@ -30,7 +31,10 @@ const App = () => {
             <Route path="order/:id" element={<OrderDetailsPage />}/>
             <Route path="my-orders" element={<MyOrderPage />}/>
         </Route>
-        <Route>{/**Admin Layout */}</Route>
+{/**Admin Layout */}
+        <Route path="/admin" element={<AdminLayout />}>
+
+        </Route>
       </Routes>
     </BrowserRouter>
   )

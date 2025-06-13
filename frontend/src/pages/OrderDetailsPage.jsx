@@ -12,6 +12,7 @@ const OrderDetailsPage = () => {
             isPaid: true,
             isDelivered: false,
             paymentMethod: "Paypal",
+            shippingMethod: "Standard",
             shippingAdress: { city: "New York", country: "USA" },
             orderItems: [
                 {
