@@ -27,3 +27,17 @@ Props
 - Không tự giữ state (trừ khi cần), chủ yếu dùng props để hiển thị hoặc gọi ngược lên.
 ➤ <Outlet />
  "Mình muốn có layout chung (như header, navbar, footer...), và chỉ muốn phần nội dung chính thay đổi theo từng trang – thì chỗ cần thay là <Outlet />."
+
+// FilterSidebar.jsx
+➤ useSearchParams() là một React Hook đến từ thư viện react-router-dom, dùng để đọc và cập nhật query parameters (tham số truy vấn) trong URL
+    - const [searchParams, setSearchParams] = useSearchParams();  
+    - searchParams: Dùng để đọc giá trị tham số truy vấn
+    - setSearchParams: Dùng để cập nhật query params trên URL
+➤ useNavigate() là một React Hook của react-router-dom (v5.1+), được dùng để chuyển hướng (navigate) người dùng đến một URL mới trong ứng dụng — giống như window.location.href nhưng không reload trang.
+- Khi nào dùng useNavigate()?
+    - Khi bạn muốn chuyển hướng sau khi:
+    - Người dùng đăng nhập/xuất.
+    - Click một sản phẩm để xem chi tiết.
+    - Submit form xong chuyển đến trang cảm ơn.
+    - Hoặc đơn giản là click nút để đổi trang.
+//params.material.split(","): tách chuỗi "cotton,polyester" thành mảng ["cotton", "polyester"] -- []: nếu không có material trong URL → mặc định là mảng rỗng
