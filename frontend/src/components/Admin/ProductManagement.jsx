@@ -40,7 +40,7 @@ const ProductManagement = () => {
                                             <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{product.price}</td>
                                             <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{product.sku}</td>
                                             <td className="p-4 font-medium text-gray-900 whitespace-nowrap">
-                                                <Link to={`/admin/products/${product._id}`} className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2">Edit</Link>
+                                                <Link to={`/admin/products/${product._id}/edit`} className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2">Edit</Link>
                                                 <button onClick={() => handleDeleteUser(product._id)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
                                             </td>
                                         </tr>
