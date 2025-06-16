@@ -12,8 +12,81 @@
 ➤ image dummy: https://picsum.photos/images
 - Cài react-paypal-js (checkout.jsx)
 
+BACKEND 
+- npm init -y
+- npm install express mongoose dotenv jsonwebtoken bcryptjs cors nodemon
+➤ Dùng để cài đặt các thư viện Node.js cho backend. Cụ thể:
+1. express:
+- Framework giúp xây dựng server nhanh và đơn giản.
+- Dùng để tạo các API route. 
+ví dụ: 
+app.get("/api/users", (req, res) => {
+  res.send("Danh sách người dùng");
+});
+2. mongoose
+- Dùng để kết nối và làm việc với MongoDB bằng JavaScript.
+- Dễ định nghĩa model và thao tác dữ liệu.
+ 3. dotenv
+- Dùng để quản lý biến môi trường trong file .env.
+- Tránh lộ key nhạy cảm như DB URL, JWT_SECRET.
+4. jsonwebtoken
+- Tạo và kiểm tra mã JWT để xác thực người dùng.
+5. bcryptjs
+- Dùng để mã hóa mật khẩu khi lưu vào database.
+6. cors
+Cho phép backend nhận request từ frontend khác domain (CORS policy).
+7. nodemon
+- Công cụ dev giúp tự restart server mỗi lần bạn sửa file.
+- Chỉ dùng khi lập trình, không dùng khi deploy.
 
+Tóm lại: Lệnh này giúp bạn cài đầy đủ các công cụ cơ bản để xây dựng một backend Node.js với MongoDB, xác thực JWT, bảo mật và thuận tiện cho dev.
+// ======================================================= //
+//server.js
+    const express = require("express");
+    const cors = require("cors");
+    const dotenv = require("dotenv");
+    const connectDB = require("./config/db");
 
+    const app = express();
+    app.use(express.json());
+    app.use(cors());
+
+    dotenv.config();
+
+    const PORT = process.env.PORT || 3000;
+
+    // connect to MongoDB
+    connectDB();
+
+    app.get("/", (req,res) => {
+        res.send("Welcome to rabbit api!");
+    });
+
+    app.listen(PORT, () => {
+        console.log(`Severs is running on http://localhost:${PORT}`);
+    })
+// ======================================================= //
+db.js
+    const mongoose = require("mongoose");
+
+    const connectDB = async () => {
+        try{
+            await mongoose.connect(process.env.MONGO_URL);
+            console.log("MongoDB connected successfully");
+        } catch(err) {
+            console.error("MongoDB connected failed.", err);
+            process.exit(1);
+        }
+    };
+
+    module.exports = connectDB;
+// ======================================================= //
+.env
+    PORT=9000
+    MONGO_URL=
+// ======================================================= //
+
+// ======================================================= //
 ➤ toán tử điều kiện (ternary operator)
 {isOpen ? a : b} >> điều_kiện ? giá_trị_nếu_đúng : giá_trị_nếu_sai
 
