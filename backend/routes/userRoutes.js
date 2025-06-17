@@ -3,7 +3,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
-const protect = require("../middleware/authMiddleware"); 
+const { protect } = require('../middleware/authMiddleware');
 
 // @route POST / api/users/register
 // @desc Register a new user
