@@ -11,8 +11,31 @@
 - Tải Sonner toast: npm install sonner
 ➤ image dummy: https://picsum.photos/images
 - Cài react-paypal-js (checkout.jsx)
+➤ React redux
+npm i react-redux @reduxjs/toolkit axios
 
-BACKEND 
+
+✅ FRONTENT: 
+Giải thích:
+➤ (1) Hàm loginUser dùng để:
+- Gửi API POST /api/users/login kèm theo thông tin user (email, password).
+Nếu thành công:
+- Lưu user vào localStorage.
+- Lưu token vào localStorage.
+- Trả lại user để cập nhật vào Redux store.
+Nếu thất bại:
+- Trả về lỗi (error.response.data) thông qua rejectWithValue.
+➤ addCase trong Redux Toolkit dùng để xử lý kết quả của các async action (như loginUser, registerUser) được tạo bởi createAsyncThunk.
+tóm lại: Lắng nghe các trạng thái của async actions
+➤ Khi nào addCase được gọi?
+* Với mỗi createAsyncThunk, Redux Toolkit sẽ tự động tạo ra 3 trạng thái:
+pending: 	Bắt đầu request	Gửi API → chưa phản hồi
+fulfilled:	Thành công (API trả dữ liệu)	Gọi resolve()
+rejected: 	Thất bại (API lỗi hoặc bị từ chối)	Gọi rejectWithValue()
+
+
+======================================================
+✅ BACKEND 
 - npm init -y
 - npm install express mongoose dotenv jsonwebtoken bcryptjs cors nodemon
 ➤ Dùng để cài đặt các thư viện Node.js cho backend. Cụ thể:
