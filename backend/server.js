@@ -10,6 +10,8 @@ const orderRoutes = require("./routes/orderRoutes");
 const uploadRoutes = require("./routes/uploadRoutes"); 
 const subscriberRoutes = require("./routes/subscriberRoutes"); 
 const adminRoutes = require("./routes/adminRoutes"); 
+const productAdminRoutes = require("./routes/productAdminRoutes"); 
+const orderAdminRoutes = require("./routes/orderAdminRoutes"); 
 
 const app = express();
 
@@ -38,6 +40,8 @@ app.use("/api", subscriberRoutes);
 
 // Admin 
 app.use("/api/admin/users", adminRoutes);
+app.use("/api/admin/products", productAdminRoutes);
+app.use("/api/admin/orders", orderAdminRoutes);
 
 app.listen(PORT, () => {
     console.log(`Severs is running on http://localhost:${PORT}`);
