@@ -145,7 +145,7 @@ const productsSlice = createSlice({
         state.error = null;
       })
 
-      .addCase(fetchProductsByFilters.fulfilled, (state, action) => {
+      .addCase(fetchProductDetails.fulfilled, (state, action) => {
         state.loading = false;
         state.selectedProduct = action.payload;
       })

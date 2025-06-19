@@ -26,6 +26,7 @@ export const fetchCart = createAsyncThunk(
                 params: {userId, guestId},
                }
             );
+            return response.data;
         } catch (error) {
             console.error(error);
             return rejectWithValue(error.response.data);
@@ -36,7 +37,7 @@ export const fetchCart = createAsyncThunk(
 // Add an item to the cart for a user or guest
 
 export const addToCart = createAsyncThunk(
-    "cart/addToCart"
+    "cart/addToCart",
     async ({productId, quantity, size, color, guestId, userId}, {rejectWithValue}) => {
        try {
          const response = await axios.post(

@@ -3,7 +3,7 @@ import authReducer from "./slices/authSlice";
 import productReduce from "./slices/productsSlice"
 import cartReduce from "./slices/cartSlice"
 import checkoutReduce from "./slices/checkoutSlice"
-import orderReduce from "./slices/orderReduce"
+import orderReduce from "./slices/orderSlice"
 
 const store = configureStore({
   reducer: {
