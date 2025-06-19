@@ -8,6 +8,7 @@ const cartRoutes = require("./routes/cartRoutes");
 const checkoutRoutes = require("./routes/checkoutRoutes"); 
 const orderRoutes = require("./routes/orderRoutes"); 
 const uploadRoutes = require("./routes/uploadRoutes"); 
+const subscriberRoutes = require("./routes/subscriberRoutes"); 
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/checkout", checkoutRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api", subscriberRoutes);
 
 app.listen(PORT, () => {
     console.log(`Severs is running on http://localhost:${PORT}`);
