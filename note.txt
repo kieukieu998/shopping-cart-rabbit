@@ -85,7 +85,17 @@ db.js
     PORT=9000
     MONGO_URL=
 // ======================================================= //
+https://cloudinary.com/  >>  Cloudinary dùng để làm gì?
+✅ 1. Lưu trữ hình ảnh và video
+Lưu trữ trên cloud thay vì local server
+Có thể upload từ frontend hoặc backend
+✅ 2. Tối ưu hình ảnh/video tự động
+Tự động nén ảnh, giảm dung lượng nhưng giữ chất lượng
+Tự chọn định dạng tốt nhất (WebP, AVIF, JPEG...)
+Resize, crop, format ngay từ URL
 
+>> CÀI ĐẶT TRONG .env xong thì chạy lệnh:
+npm install multer cloudinary streamifier
 // ======================================================= //
 ➤ toán tử điều kiện (ternary operator)
 {isOpen ? a : b} >> điều_kiện ? giá_trị_nếu_đúng : giá_trị_nếu_sai
