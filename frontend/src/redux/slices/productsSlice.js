@@ -155,7 +155,7 @@ const productsSlice = createSlice({
         state.error = action.error.message;
       })
 
-       // handle updating product
+      // handle updating product
       .addCase(updateProduct.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -165,10 +165,10 @@ const productsSlice = createSlice({
         state.loading = false;
         const updateProduct = action.payload;
         const index = state.products.findIndex(
-            (product) => product._id === updateProduct._id
+          (product) => product._id === updateProduct._id
         );
-        if(index !==1) {
-            state.products[index] = updateProduct;
+        if (index !== -1) {
+          state.products[index] = updateProduct;
         }
       })
 
@@ -191,10 +191,9 @@ const productsSlice = createSlice({
       .addCase(fetchSimilarProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-      })
-
+      });
   },
 });
 
-export const {setFilters, clearFilters} = productsSlice.actions;
-export default productsSlice.reducer
+export const { setFilters, clearFilters } = productsSlice.actions;
+export default productsSlice.reducer;
