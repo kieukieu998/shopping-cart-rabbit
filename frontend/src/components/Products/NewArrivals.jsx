@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import axios from "axios"
+
 const NewArrivals = () => {
     const scrollRef = useRef(null); // Trỏ đến DOM element chứa nội dung cần cuộn
     const [isDragging, setIsDragging] = useState(false);  // Biết được người dùng có đang kéo chuột để cuộn không.  nhấn chuột (mousedown) → true || nhả chuột (mouseup) → false
@@ -9,96 +11,113 @@ const NewArrivals = () => {
     const [canScrollLeft, setCanScrollLeft] = useState(false); // Có thể cuộn thêm sang trái khôngg.
     const [canScrollRight, setCanScrollRight] = useState(true); // Có thể cuộn thêm sang phải không.
 
-    const newArrival = [
-        {
-            _id: "1",
-            name: "Stylish Jacket",
-            price: 120,
-            image: [
-                {
-                    url: "https://picsum.photos/500/500?random=9",
-                    allText: "Stylish Jacket"
-                }
-            ]
-        },
-        {
-            _id: "2",
-            name: "Stylish Jacket",
-            price: 120,
-            image: [
-                {
-                    url: "https://picsum.photos/500/500?random=2",
-                    allText: "Stylish Jacket"
-                }
-            ]
-        },
-        {
-            _id: "3",
-            name: "Stylish Jacket",
-            price: 120,
-            image: [
-                {
-                    url: "https://picsum.photos/500/500?random=3",
-                    allText: "Stylish Jacket"
-                }
-            ]
-        },
-        {
-            _id: "4",
-            name: "Stylish Jacket",
-            price: 120,
-            image: [
-                {
-                    url: "https://picsum.photos/500/500?random=4",
-                    allText: "Stylish Jacket"
-                }
-            ]
-        },
-        {
-            _id: "5",
-            name: "Stylish Jacket",
-            price: 120,
-            image: [
-                {
-                    url: "https://picsum.photos/500/500?random=5",
-                    allText: "Stylish Jacket"
-                }
-            ]
-        },
-        {
-            _id: "6",
-            name: "Stylish Jacket",
-            price: 120,
-            image: [
-                {
-                    url: "https://picsum.photos/500/500?random=6",
-                    allText: "Stylish Jacket"
-                }
-            ]
-        },
-        {
-            _id: "7",
-            name: "Stylish Jacket",
-            price: 120,
-            image: [
-                {
-                    url: "https://picsum.photos/500/500?random=7",
-                    allText: "Stylish Jacket"
-                }
-            ]
-        },
-        {
-            _id: "8",
-            name: "Stylish Jacket",
-            price: 120,
-            image: [
-                {
-                    url: "https://picsum.photos/500/500?random=8",
-                    allText: "Stylish Jacket"
-                }
-            ]
-        }
-    ];
+    // dummy data
+    //    const newArrival = [
+    //     {
+    //         _id: "1",
+    //         name: "Stylish Jacket",
+    //         price: 120,
+    //         image: [
+    //             {
+    //                 url: "https://picsum.photos/500/500?random=9",
+    //                 allText: "Stylish Jacket"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         _id: "2",
+    //         name: "Stylish Jacket",
+    //         price: 120,
+    //         image: [
+    //             {
+    //                 url: "https://picsum.photos/500/500?random=2",
+    //                 allText: "Stylish Jacket"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         _id: "3",
+    //         name: "Stylish Jacket",
+    //         price: 120,
+    //         image: [
+    //             {
+    //                 url: "https://picsum.photos/500/500?random=3",
+    //                 allText: "Stylish Jacket"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         _id: "4",
+    //         name: "Stylish Jacket",
+    //         price: 120,
+    //         image: [
+    //             {
+    //                 url: "https://picsum.photos/500/500?random=4",
+    //                 allText: "Stylish Jacket"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         _id: "5",
+    //         name: "Stylish Jacket",
+    //         price: 120,
+    //         image: [
+    //             {
+    //                 url: "https://picsum.photos/500/500?random=5",
+    //                 allText: "Stylish Jacket"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         _id: "6",
+    //         name: "Stylish Jacket",
+    //         price: 120,
+    //         image: [
+    //             {
+    //                 url: "https://picsum.photos/500/500?random=6",
+    //                 allText: "Stylish Jacket"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         _id: "7",
+    //         name: "Stylish Jacket",
+    //         price: 120,
+    //         image: [
+    //             {
+    //                 url: "https://picsum.photos/500/500?random=7",
+    //                 allText: "Stylish Jacket"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         _id: "8",
+    //         name: "Stylish Jacket",
+    //         price: 120,
+    //         image: [
+    //             {
+    //                 url: "https://picsum.photos/500/500?random=8",
+    //                 allText: "Stylish Jacket"
+    //             }
+    //         ]
+    //     }
+    // ];
+
+    const [newArrivals, setNewArrivals] = useState([]);
+
+    useEffect(() => {
+        const fetchNewArrivals = async () => {
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_BACKEND_URL}/api/products/new-arrivals`
+                );
+                setNewArrivals(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchNewArrivals();
+    }, [newArrivals]);
 
     // bắt đầu thao tác kéo 
     const handleMouseDown = (e) => {
@@ -190,12 +209,12 @@ const NewArrivals = () => {
                 onMouseUp={handleMouseUpOrLeave}
                 onMouseLeave={handleMouseUpOrLeave}
             >
-                {newArrival.map((product) => {
+                {newArrivals.map((product) => {
                     return (
                         <div key={product._id} className="min-w-[100%] sm:min-w-[50%] lg:min-w-[30%] relative">
                             <img
-                                src={product.image[0]?.url}
-                                alt={product.image[0]?.allText || product.name}
+                                src={product.images[0]?.url}
+                                alt={product.images[0]?.allText || product.name}
                                 className="w-full h-[400px] object-cover rounded-lg"
                                 draggable="false"
                             />
