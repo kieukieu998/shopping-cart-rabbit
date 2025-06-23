@@ -74,26 +74,25 @@ function FilterSidebar() {
         setPriceRange([0, params.maxPrice || 100]);
     }, [searchParams]);
 
-    const handleFilterChange = (e) => {
-        const { name, value, checked, type } = e.target;
+const handleFilterChange = (e) => {
+  const { name, value, checked, type } = e.target;
 
-        let newFilters = { ...filters };
+  let newFilters = { ...filters };
 
-        if (type === "checkbox") {
-            if (checked) {
-                newFilters[name] = [...(newFilters[name] || []), value];
-            }
-            else {
-                newFilters[name] = newFilters[name].filters((item) => item !== value);
-            }
+  if (type === "checkbox") {
+    if (checked) {
+      newFilters[name] = [...(newFilters[name] || []), value];
+    } else {
+      newFilters[name] = (newFilters[name] || []).filter((item) => item !== value);
+    }
+  } else {
+    newFilters[name] = value;
+  }
 
-        }
-        else {
-            newFilters[name] = value;
-        };
-        setFilters(newFilters);
-        updateURLParams(newFilters);
-    };
+  setFilters(newFilters);
+  updateURLParams(newFilters);
+};
+
 
     const updateURLParams = (newFilters) => {
         const params = new URLSearchParams();

@@ -3,9 +3,21 @@ import { FaFilter } from "react-icons/fa";
 import FilterSidebar from "../components/Products/FilterSidebar";
 import SoftOption from "../components/Products/SoftOption";
 import ProductGrid from "../components/Products/ProductGrid";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsByFilters } from "../redux/slices/productsSlice";
 
 const CollectionPage = () => {
-    const [products, setProducts] = useState([]);
+    const { collection } = useParams();
+    const [ searchParams ] = useSearchParams();
+    const dispatch = useDispatch();
+    const {products, loading, error} = useSelector((state) => state.products);
+    const queryParams = Object.fromEntries([...searchParams]);
+
+    useEffect(() => {
+        dispatch(fetchProductsByFilters({collection, ...queryParams}));
+    }, [dispatch, collection, searchParams]);
+
     const sidebarRef = useRef(null);
     const [isSiderbarOpen, setIsSidebarOpen] = useState(false);
 
@@ -29,6 +41,7 @@ const CollectionPage = () => {
        }
     }, []);
 
+   /*
     useEffect(() => {
         setTimeout(() => {
             const fetchedProducts = [
@@ -124,6 +137,7 @@ const CollectionPage = () => {
             setProducts(fetchedProducts)
         }, 1000);
     }, []);
+   */
     return (
         <div className="flex flex-col lg:flex-row">
             {/* Mobile Filter button  */}
@@ -139,7 +153,7 @@ const CollectionPage = () => {
                 {/* Soft Option */}
                 <SoftOption />
                 {/* Product Grid  */}
-                <ProductGrid products={products}/>
+                <ProductGrid products={products} loading={loading} error={error}/>
             </div>
         </div>
     )
