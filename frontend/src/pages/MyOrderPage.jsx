@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { fetchUserOrders } from "../redux/slices/orderSlice"
 
 const MyOrderPage = () => {
-    const [orders, setOrders] = useState([]); // mảng rỗng để lưu danh sách các đơn hàng người dùng
+    // const [orders, setOrders] = useState([]); // mảng rỗng để lưu danh sách các đơn hàng người dùng
     const navigate = useNavigate();
+   /*
     useEffect(() => {
         // Simulate fetching orders
         setTimeout(() => {
@@ -39,11 +42,21 @@ const MyOrderPage = () => {
             setOrders(mockOrders);
         }, 1000);
     }, []);
+   */
+
+    const dispatch = useDispatch();
+    const { orders, loading, error } = useSelector((state) => state.orders);
+
+    useEffect(() => {
+        dispatch(fetchUserOrders());
+    }, [dispatch]);
 
     const handleRowClick = (orderID) => {
         navigate(`/order/${orderID}`);
     };
 
+    if(loading) return <p>Loading...</p>
+    if(error) return <p>Error {error}</p>
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:p-6">
@@ -67,14 +80,18 @@ const MyOrderPage = () => {
                                 return (
                                     <tr key={order._id} className="border-b hover:bg-gray-50 cursor-pointer" onClick={() => handleRowClick(order._id)}>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4">
-                                            <img src={order.orderItems[0].image} alt={order.orderItems[0].name} className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg" />
+                                           <img
+                                            src={order?.orderItems?.[0]?.image}
+                                            alt={order?.orderItems?.[0]?.name || "Product"}
+                                            className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg"
+                                            />
                                         </td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">#{order._id}</td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
                                             {new Date(order.createAt).toLocaleDateString()}{""}&nbsp;{new Date(order.createAt).toLocaleTimeString()}{""}
                                         </td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">{order.shippingAdress ? `${order.shippingAdress.city}, ${order.shippingAdress.country}` : "N/A"}</td>
-                                        <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">{order.orderItems.length}</td>
+                                        <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap"> {order?.orderItems?.length || 0}</td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">${order.totalPrice}</td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
                                             <span className={`${order.isPaid

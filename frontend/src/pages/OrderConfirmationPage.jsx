@@ -1,5 +1,10 @@
 import React from 'react'
-const checkout = {
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { clearCart } from "../redux/slices/cartSlice"
+/*const checkout = {
     _id: "12345",
     createdAt: new Date(),
     checkoutItems: [
@@ -27,7 +32,10 @@ const checkout = {
         city: "New York",
         country: "USA"
     }
-};
+};*/
+
+
+
 
 const calculateEstimatedDelivery = (createdAt) => {
     const orderDate = new Date(createdAt);
@@ -37,6 +45,19 @@ const calculateEstimatedDelivery = (createdAt) => {
 
 
 const OrderConfirmationPage = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { checkout } = useSelector((state) => state.checkout);
+
+    // Clear the cart when the order is confirm
+    useEffect(() => {
+        if (checkout && checkout._id) {
+            dispatch(clearCart());
+            localStorage.removeItem("cart");
+        } else {
+            navigate("/my-order");
+        }
+    }, [checkout, dispatch, navigate]);
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white">
             <h1 className="text-4xl font-bold text-center text-emerald-700 mb-8">Thank You For Your Order!</h1>

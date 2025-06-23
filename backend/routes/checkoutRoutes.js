@@ -21,7 +21,7 @@ router.post("/", protect, async (req, res) => {
     // Create a new checkout session
     const newCheckout = await Checkout.create({
       user: req.user._id,
-      checkoutItem: checkoutItems,
+      checkoutItems: checkoutItems,
       shippingAddress,
       paymentMethod,
       totalPrice,

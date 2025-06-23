@@ -15,10 +15,12 @@ const orderAdminRoutes = require("./routes/orderAdminRoutes");
 
 const app = express();
 
+dotenv.config();
+
 app.use(express.json());
 app.use(cors());
 
-dotenv.config();
+
 
 const PORT = process.env.PORT || 3000;
 

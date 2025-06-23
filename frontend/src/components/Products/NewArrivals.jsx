@@ -117,7 +117,7 @@ const NewArrivals = () => {
             }
         };
         fetchNewArrivals();
-    }, [newArrivals]);
+    }, []);
 
     // bắt đầu thao tác kéo 
     const handleMouseDown = (e) => {

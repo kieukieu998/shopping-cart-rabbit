@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from "react"
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import imageRegister from "../assets/register.webp"
 
 // redux
 import { registerUser } from "../redux/slices/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { mergeCart } from "../redux/slices/cartSlice";
 
 const Register = () => {
     const [email, setEmail] = useState("");
@@ -13,6 +14,28 @@ const Register = () => {
     const [password, setPassword] = useState("");
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { user, guestId } = useSelector((state) => state.auth);
+    const { cart } = useSelector((state) => state.cart);
+
+    // Get redirect parameter and check if it's checkout or something
+
+    const redirect = new URLSearchParams(location.search).get("redirect") || "/";
+    const isCheckoutRedirect = redirect.includes("checkout");
+
+    useEffect(() => {
+        if(user) {
+            if(cart?.products?.length > 0 && guestId) {
+                dispatch(mergeCart({guestId, user})).then(() => {
+                    navigate(isCheckoutRedirect ? "/checkout" : "/");
+                });
+            } else {
+                navigate(isCheckoutRedirect ? "/checkout" : "/");
+            }
+        }
+    }, [user, guestId, cart, navigate, isCheckoutRedirect, dispatch]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(registerUser({name, email, password}));
@@ -27,7 +50,7 @@ const Register = () => {
                         <h2 className="text-xl font-medium">Rabbit</h2>
                     </div>
                     <h2 className="text-2xl font-bold text-center mb-6">Hey there !</h2>
-                    <p className="text-center mb-6">Enter your username nd password to Register</p>
+                    <p className="text-center mb-6">Enter your username and password to Register</p>
                     <div className="mb-4">
                         <label htmlFor="name" className="block text-sm font-semibold mb-2">Name</label>
                         <input
@@ -59,7 +82,7 @@ const Register = () => {
                         />
                     </div>
                     <button type="submit" onClick={handleSubmit} className="w-full bg-black text-white p-2 rounded-lg font-semibold hover:bg-gray-800 transition">Sign Up</button>
-                    <p className="mt-6 text-center text-sm">Have an account? <Link to="/login" className="text-blue-500">Login</Link></p>
+                    <p className="mt-6 text-center text-sm">Have an account? <Link to={`/login?redirect=${encodeURIComponent(redirect)}`} className="text-blue-500">Login</Link></p>
                 </form>
             </div>
             <div className="hidden md:block w-1/2 bg-gray-800">
