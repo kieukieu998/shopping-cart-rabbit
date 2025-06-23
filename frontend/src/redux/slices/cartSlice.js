@@ -142,6 +142,7 @@ const cartSlice = createSlice({
         .addCase(fetchCart.fulfilled, (state, action) => {
             state.loading = false;
             state.error = action.payload;
+            state.cart = action.payload;
             saveCartToStorage(action.payload);
         })
 
@@ -159,6 +160,7 @@ const cartSlice = createSlice({
         .addCase(addToCart.fulfilled, (state, action) => {
             state.loading = false;
             state.error = action.payload;
+            state.cart = action.payload;
             saveCartToStorage(action.payload);
         })
 
@@ -177,6 +179,7 @@ const cartSlice = createSlice({
         .addCase(updateCartItemQuantity.fulfilled, (state, action) => {
             state.loading = false;
             state.error = action.payload;
+             state.cart = action.payload; 
             saveCartToStorage(action.payload);
         })
 
@@ -195,6 +198,7 @@ const cartSlice = createSlice({
         .addCase(removeFromCart.fulfilled, (state, action) => {
             state.loading = false;
             state.error = action.payload;
+            state.cart = action.payload;
             saveCartToStorage(action.payload);
         })
 
