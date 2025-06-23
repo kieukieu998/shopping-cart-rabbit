@@ -131,7 +131,7 @@ const Home = () => {
       }
     };
     fetchBestSeller();
-  }), [dispatch];
+  }, [dispatch]);
 
 
   return (
