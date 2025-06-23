@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import { CiSearch } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchProductsByFilters, setFilters } from "../../redux/slices/productsSlice";
 
 
 const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSearchToggle = () => {
         setIsOpen(!isOpen); // Đảo trạng thái
@@ -13,7 +18,10 @@ const SearchBar = () => {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        console.log("SearchItem:", searchTerm);
+        dispatch(setFilters({search: searchTerm}));
+        dispatch(fetchProductsByFilters({search: searchTerm}));
+        navigate(`/collections/all?search=${searchTerm}`);
+        // console.log("SearchItem:", searchTerm);
         setIsOpen(false);
     }
     return (

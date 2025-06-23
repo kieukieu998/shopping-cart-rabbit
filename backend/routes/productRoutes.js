@@ -207,9 +207,9 @@ if (maxPrice) query.price.$lte = Number(maxPrice);
 }
   if (search) {
     query.$or = [
-      { name: { $regex: search, $option: "i" } },
-      { description: { $regex: search, $option: "i" } },
-      { name: { $regex: search, $option: "i" } },
+      { name: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+      { name: { $regex: search, $options: "i" } },
     ];
   }
 
