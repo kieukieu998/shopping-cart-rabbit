@@ -90,7 +90,7 @@ const MyOrderPage = () => {
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
                                             {new Date(order.createAt).toLocaleDateString()}{""}&nbsp;{new Date(order.createAt).toLocaleTimeString()}{""}
                                         </td>
-                                        <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">{order.shippingAdress ? `${order.shippingAdress.city}, ${order.shippingAdress.country}` : "N/A"}</td>
+                                        <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">{order.shippingAddress ? `${order.shippingAddress.city}, ${order.shippingAddress.country}` : "N/A"}</td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap"> {order?.orderItems?.length || 0}</td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">${order.totalPrice}</td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
