@@ -44,7 +44,7 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
-        userData
+        userData // đây chính là { email, password }
       );
       localStorage.setItem("userInfo", JSON.stringify(response.data.user));
       localStorage.setItem("userToken", response.data.token);

@@ -6,7 +6,7 @@ import imageLogin from "../assets/login.webp"
 // redux
 import { loginUser } from "../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { mergeCart } from "../redux/slices/cartSlice";
+import { fetchCart, mergeCart } from "../redux/slices/cartSlice";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -24,9 +24,9 @@ const Login = () => {
     const isCheckoutRedirect = redirect.includes("checkout");
 
     useEffect(() => {
-        if(user) {
-            if(cart?.products?.length > 0 && guestId) {
-                dispatch(mergeCart({guestId, user})).then(() => {
+        if (user) {
+            if (cart?.products?.length > 0 && guestId) {
+                dispatch(mergeCart({ guestId, user })).then(() => {
                     navigate(isCheckoutRedirect ? "/checkout" : "/");
                 });
             } else {
@@ -35,11 +35,27 @@ const Login = () => {
         }
     }, [user, guestId, cart, navigate, isCheckoutRedirect, dispatch]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(loginUser({ email, password}));
-        // console.log("User Login", { email, password });
-    };
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const result = await dispatch(loginUser({ email, password }));
+
+    if (loginUser.fulfilled.match(result)) {
+        const user = result.payload;
+
+        // Nếu có giỏ hàng guest → merge
+        if (cart?.products?.length > 0 && guestId) {
+            await dispatch(mergeCart({ guestId, user }));
+        }
+
+        // Sau đó fetch lại giỏ hàng từ backend
+        await dispatch(fetchCart({ userId: user._id }));
+
+        // ✅ Chỉ navigate sau khi mọi thứ xong
+        navigate(isCheckoutRedirect ? "/checkout" : "/");
+    }
+};
+
 
     return (
         <div className="flex">

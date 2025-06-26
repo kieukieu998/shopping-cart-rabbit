@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchUserOrders } from "../redux/slices/orderSlice"
@@ -88,7 +88,7 @@ const MyOrderPage = () => {
                                         </td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">#{order._id}</td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
-                                            {new Date(order.createAt).toLocaleDateString()}{""}&nbsp;{new Date(order.createAt).toLocaleTimeString()}{""}
+                                            {new Date(order.createdAt).toLocaleDateString()}{""}&nbsp;{new Date(order.createdAt).toLocaleTimeString()}{""}
                                         </td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">{order.shippingAddress ? `${order.shippingAddress.city}, ${order.shippingAddress.country}` : "N/A"}</td>
                                         <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap"> {order?.orderItems?.length || 0}</td>

@@ -71,7 +71,7 @@ const OrderConfirmationPage = () => {
                                 Order ID: {checkout._id}
                             </h2>
                             <p className="text-gray-500">
-                                Order date: {new Date(checkout.createdAt).toLocaleDateString()}
+                                Order date: {new Date(checkout.createdAt).toLocaleDateString("vi-VN")}
                             </p>
                         </div>
                         {/* Estimated Delivery */}
