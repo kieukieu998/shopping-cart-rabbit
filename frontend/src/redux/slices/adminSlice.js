@@ -42,7 +42,7 @@ export const updateUser = createAsyncThunk(
   "admin/updateUser",
   async ({ id, name, email, role }) => {
     const response = await axios.put(
-      `${import.meta.env.VITE_BACKEND_URL}/api/admin/user/${id}`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
       { name, email, role },
       {
         headers: {
@@ -50,7 +50,7 @@ export const updateUser = createAsyncThunk(
         },
       }
     );
-    response.data;
+    return response.data.user;
   }
 );
 
@@ -83,7 +83,7 @@ const adminSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loading = false;
-        state.action = action.payload;
+        state.users = action.payload;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
@@ -119,6 +119,12 @@ const adminSlice = createSlice({
       .addCase(addUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
+      })
+
+      // Delete
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        const deletedUserId = action.payload;
+        state.users = state.users.filter((user) => user._id !== deletedUserId);
       });
   },
 });
