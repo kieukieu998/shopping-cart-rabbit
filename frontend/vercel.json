@@ -1,7 +1,7 @@
 {
     "version" : 2,
     "name": "backend",
-    "build": [
+    "builds": [
         {
             "src" : "package.js",
             "use" : "@vercel/static-build",
