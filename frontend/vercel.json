@@ -1,0 +1,16 @@
+{
+    "version" : 2,
+    "name": "backend",
+    "build": [
+        {
+            "src" : "package.js",
+            "use" : "@vercel/static-build",
+            "config": {"distDir" : "dist"}
+        }
+    ],
+    "rewrites": [
+        {
+            "source" : "/(.*)", "destination": "/"
+        }
+    ]
+}
