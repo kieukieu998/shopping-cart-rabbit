@@ -26,7 +26,7 @@ router.get("/", protect, admin, async (req, res) => {
 // @access Private/Admin
 router.put("/:id", protect, admin, async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate("user", "name");
     if (order) {
       order.status = req.body.status || order.status;
       order.isDelivered = req.body.status === "Delivered" ? true : order.isDelivered;
@@ -35,7 +35,7 @@ router.put("/:id", protect, admin, async (req, res) => {
       const updatedOrder = await order.save();
       res.json({
         message: "Order updated status successfully",
-        user: updatedOrder,
+        order: updatedOrder,
       });
     } else {
         res.status(404).json({message: "Order not found"});

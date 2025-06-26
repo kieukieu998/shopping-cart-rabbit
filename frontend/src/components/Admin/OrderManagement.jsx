@@ -1,21 +1,29 @@
-import React from 'react'
-
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchAllOrders, updateOrderStatus } from "../../redux/slices/adminOrderSlice";
 const OrderManagement = () => {
-    const orders = [
-        {
-            _id: 123123,
-            user: {
-                name: "John Doe",
-            },
-            totalPrice: 110,
-            status: "Processing",
-        },
-    ];
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { user } = useSelector((state) => state.auth);
+    const { orders, loading, error } = useSelector((state) => state.adminOrders);
+
+    useEffect(() => {
+        if (!user || user.role !== "admin") {
+            navigate("/");
+        } else {
+            dispatch(fetchAllOrders());
+        }
+    }, [dispatch, user, navigate]);
+
 
     const handleStatusChange = (orderId, status) => {
-        console.log({ id: orderId, status: status });
+        dispatch(updateOrderStatus({ id: orderId, status }));
+    };
 
-    }
+    if (loading) return <p>Loading....</p>
+    if (error) return <p>Error: {error}</p>
     return (
         <div className="max-w-7xl mx-auto p-6">
             <h2 className="text-2xl font-bold mb-4">Order Management</h2>
@@ -37,8 +45,10 @@ const OrderManagement = () => {
                                     return (
                                         <tr key={order._id} className="border-b hover:bg-gray-50 cursor-pointer">
                                             <td className="p-4 font-medium text-gray-900 whitespace-nowrap">#{order._id}</td>
-                                            <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{order.user.name}</td>
-                                            <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{order.totalPrice}</td>
+                                            <td className="p-4 font-medium text-gray-900 whitespace-nowrap"> {order.user?.name || "Unknown"}</td>
+                                            <td className="p-4 font-medium text-gray-900 whitespace-nowrap">${typeof order.totalPrice === "number"
+                                                ? order.totalPrice.toFixed(2)
+                                                : parseFloat(order.totalPrice || 0).toFixed(2)}</td>
                                             <td className="p-4 font-medium text-gray-900 whitespace-nowrap">
                                                 <select
                                                     value={order.status}
@@ -53,9 +63,11 @@ const OrderManagement = () => {
                                             </td>
                                             <td className="p-4 font-medium text-gray-900 whitespace-nowrap">
                                                 <button
-                                                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg:green-600"
-                                                    onClick={() => handleStatusChange(order._id, "Delivered")}>
-                                                        Mask as Delivered
+                                                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:opacity-50"
+                                                    onClick={() => handleStatusChange(order._id, "Delivered")}
+                                                    disabled={order.status === "Delivered"}
+                                                >
+                                                    Mark as Delivered
                                                 </button>
                                             </td>
                                         </tr>

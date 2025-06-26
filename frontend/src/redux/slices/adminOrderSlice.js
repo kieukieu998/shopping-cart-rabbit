@@ -85,33 +85,50 @@ const adminOrderSlice = createSlice({
         state.totalOrders = action.payload.length;
 
         // calculate total sales
-        const totalSales = action.payload.reduce((acc, order) => {
-          return acc + order.totalPrice;
-        }, 0);
+       const totalSales = action.payload.reduce((acc, order) => {
+  return acc + (order.totalPrice || 0);
+}, 0);
         state.totalSales = totalSales;
       })
       .addCase(fetchAllOrders.rejected, (state, action) => {
-        state.loading = true;
-        state.error = action.payload.message;
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to fetch orders";
       })
 
       // update Order status
+      .addCase(updateOrderStatus.pending, (state) => {
+        state.loading = true;
+      })
+
       .addCase(updateOrderStatus.fulfilled, (state, action) => {
-        const updatedOrder = action.payload;
+        const updatedOrder = action.payload.order;
         const orderIndex = state.orders.findIndex(
           (order) => order._id === updatedOrder._id
         );
         if (orderIndex !== -1) {
           state.orders[orderIndex] = updatedOrder;
         }
+         state.loading = false; 
+      })
+
+      .addCase(updateOrderStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to update order status";
       })
 
       // Delete Order
+      .addCase(deleteOrder.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(deleteOrder.fulfilled, (state, action) => {
         state.orders = state.orders.filter(
           (order) => order._id !== action.payload
         );
-      });
+      })
+      .addCase(deleteOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to delete order";
+        })
   },
 });
 
