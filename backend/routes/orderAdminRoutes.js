@@ -10,7 +10,10 @@ const { protect, admin } = require("../middleware/authMiddleware");
 
 router.get("/", protect, admin, async (req, res) => {
   try {
-    const orders = await Order.find({});
+    const orders = await Order.find({})
+      .populate("user", "name email") 
+      .sort({ createdAt: -1 });     
+
     res.json(orders);
   } catch (error) {
     console.error(error);

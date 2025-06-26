@@ -45,7 +45,6 @@ const handleCreateCheckout = async (e) => {
             setCheckoutId(res.payload._id); // set checkout ID checkout was successful
         }
     }
-    console.log("checkout data:", cart.products);
 };
 
 const handlePaymentSuccess = async (details) => {
