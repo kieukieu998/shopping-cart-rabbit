@@ -164,11 +164,11 @@ router.get("/", async (req, res) => {
   const { userId, guestId } = req.query;
   try {
     const cart = await getCart(userId, guestId);
-    if (cart) {
-      res.json(cart);
-    } else {
-      res.status(404).json({ message: "Cart not found" });
-    }
+   if (cart) {
+  res.json(cart);
+} else {
+  res.json({ products: [], totalPrice: 0 }); 
+}
   } catch (error) {
     console.log(error);
     res.status(500).send("Server Error");

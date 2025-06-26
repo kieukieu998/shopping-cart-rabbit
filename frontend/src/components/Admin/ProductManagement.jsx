@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { deleteProduct, fetchAdminProducts } from "../../redux/slices/adminProductSlice"
 
 const ProductManagement = () => {
-    const products = [
-        {
-            _id: "123123",
-            name: "Shirt",
-            price: 110,
-            sku: "123123123"
-        },
-    ];
+    const dispatch = useDispatch();
+    const {products, loading, error} = useSelector((state) => state.adminProducts);
 
-    const handleDeleteUser = (id) => {
+    useEffect(() => {
+        dispatch(fetchAdminProducts());
+    }, [dispatch]);
+
+    const handleDeleteProduct = (id) => {
         if (window.confirm("Are you sure you want to delete this product?")) {
-            console.log("delete product width ID", id);
-
+          dispatch(deleteProduct(id));
         }
     };
+
+    if(loading) return <p>Loading....</p>
+    if(error) return <p>Error: {error}....</p>
+
     return (
         <div className="max-w-7xl mx-auto p-6">
             <h2 className="text-2xl font-bold mb-4">Product Management</h2>
@@ -36,12 +39,12 @@ const ProductManagement = () => {
                                 products.map((product) => {
                                     return (
                                         <tr key={product._id} className="border-b hover:bg-gray-50 cursor-pointer">
-                                            <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{product.name}</td>
+                                            <td className="p-4 font-medium text-gray-900 whitespace-nowrap text-left">{product.name}</td>
                                             <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{product.price}</td>
                                             <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{product.sku}</td>
                                             <td className="p-4 font-medium text-gray-900 whitespace-nowrap">
                                                 <Link to={`/admin/products/${product._id}/edit`} className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 mr-2">Edit</Link>
-                                                <button onClick={() => handleDeleteUser(product._id)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                                                <button onClick={() => handleDeleteProduct(product._id)} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
                                             </td>
                                         </tr>
                                     )
